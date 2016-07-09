@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+    <contextName>MitakeSMS-Appender</contextName>
+    <property name="LOG_HOME" value="logs"/>
+    <property name="CHARSET" value="UTF-8"/>
+    <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${PATTERN}</pattern>
+            <charset>${CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${LOG_HOME}/myLog.log</file>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+            <charset>${CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <appender name="SMS" class="tw.com.mitake.logback.appender.SmsAppender">
+        <username>http://example.com</username> <!-- Your Mitake SMS username -->
+        <password>abcdef1234567890</password> <!-- Your Mitake SMS password -->
+        <title>Logback SMS Appender</title> <!-- Your Mitake SMS title -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${PATTERN}</pattern>
+            <charset>${CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <root level="INFO" additivity="false">
+        <appender-ref ref="SMS"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>
