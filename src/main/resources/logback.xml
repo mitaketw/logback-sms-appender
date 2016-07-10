@@ -21,8 +21,9 @@
     </appender>
 
     <appender name="SMS" class="tw.com.mitake.logback.appender.SmsAppender">
-        <username>http://example.com</username> <!-- Your Mitake SMS username -->
-        <password>abcdef1234567890</password> <!-- Your Mitake SMS password -->
+        <username>my_username</username> <!-- Your Mitake SMS username -->
+        <password>my_password</password> <!-- Your Mitake SMS password -->
+        <to>0912345678</to> <!-- Your Mitake SMS destination phone number -->
         <title>Logback SMS Appender</title> <!-- Your Mitake SMS title -->
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${PATTERN}</pattern>

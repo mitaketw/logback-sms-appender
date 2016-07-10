@@ -4,18 +4,20 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Layout;
 import ch.qos.logback.core.UnsynchronizedAppenderBase;
 import ch.qos.logback.core.encoder.LayoutWrappingEncoder;
+import tw.com.mitake.sms.MitakeSms;
 
 public class SmsAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     private LayoutWrappingEncoder<ILoggingEvent> encoder;
     private Layout<ILoggingEvent> layout;
     private String username;
     private String password;
+    private String to;
     private String title;
 
     @Override
     public void start() {
         if (!checkProperty()) {
-            addError("No set url / apiKey / projectId / title [" + name + "].");
+            addError("No set username / password / to / title [" + name + "].");
 
             return;
         }
@@ -32,14 +34,18 @@ public class SmsAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
             layout = encoder.getLayout();
         } catch (Exception e) {
             addError("Exception", e);
+
+            return;
         }
+
+        MitakeSms.init(username, password);
 
         super.start();
     }
 
     private boolean checkProperty() {
-        return username != null && username.length() != 0 && password != null && password.length() != 0 && title != null
-                && title.length() != 0;
+        return username != null && username.length() != 0 && password != null && password.length() != 0 && to != null &&
+                to.length() != 0 && title != null && title.length() != 0;
     }
 
     @Override
@@ -48,6 +54,7 @@ public class SmsAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     }
 
     private void createIssue(ILoggingEvent event) {
+        MitakeSms.send(to, layout.doLayout(event));
     }
 
     public LayoutWrappingEncoder<ILoggingEvent> getEncoder() {
@@ -72,6 +79,14 @@ public class SmsAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
     }
 
     public String getTitle() {
