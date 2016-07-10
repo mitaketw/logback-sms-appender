@@ -8,14 +8,14 @@
 <dependency>
   <groupId>mitake</groupId>
   <artifactId>logback-sms-appender</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-compile 'mitake:logback-sms-appender:0.1.0'
+compile 'mitake:logback-sms-appender:0.1.1'
 ```
 
 ## How to use
