@@ -1,5 +1,7 @@
 # logback-sms-appender
 
+[![Build Status](https://travis-ci.org/mitaketw/logback-sms-appender.svg?branch=master)](https://travis-ci.org/mitaketw/logback-sms-appender)
+
 ## Dependency
 
 ### Maven
