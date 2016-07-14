@@ -8,16 +8,16 @@
 
 ```xml
 <dependency>
-  <groupId>mitake</groupId>
+  <groupId>tw.com.mitake</groupId>
   <artifactId>logback-sms-appender</artifactId>
-  <version>0.1.2</version>
+  <version>0.2.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-compile 'mitake:logback-sms-appender:0.1.2'
+compile 'tw.com.mitake:logback-sms-appender:0.2.0'
 ```
 
 ## How to use
