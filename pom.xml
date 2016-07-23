@@ -8,7 +8,7 @@
 
     <name>logback-sms-appender</name>
     <description>Send log by SMS</description>
-    <url>http://maven.apache.org</url>
+    <url>https://github.com/mitaketw/logback-sms-appender</url>
 
     <licenses>
         <license>
