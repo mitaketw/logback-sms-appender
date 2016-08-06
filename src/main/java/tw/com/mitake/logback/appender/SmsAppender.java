@@ -1,39 +1,28 @@
 package tw.com.mitake.logback.appender;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.Layout;
+import ch.qos.logback.classic.spi.IThrowableProxy;
 import ch.qos.logback.core.UnsynchronizedAppenderBase;
-import ch.qos.logback.core.encoder.LayoutWrappingEncoder;
 import tw.com.mitake.sms.MitakeSms;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class SmsAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
-    private LayoutWrappingEncoder<ILoggingEvent> encoder;
-    private Layout<ILoggingEvent> layout;
+    private static final String DEFAULT_TITLE = "Logback SMS Appender";
+    private static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd:HHmmssSSS");
+    // 20160806:165926109,main,E,tw.com.mitake.AppTest,java.lang.RuntimeException:Oops,tw.com.mitake.AppTest.testSms,13
+    private static final String FORMAT_MESSAGE = "%s - %s,%s,%s,%s,%s:%s,%s.%s,%d";
+
     private String username;
     private String password;
     private String to;
-    private String title;
+    private String title = DEFAULT_TITLE;
 
     @Override
     public void start() {
         if (!checkProperty()) {
-            addError("No set username / password / to / title [" + name + "].");
-
-            return;
-        }
-
-        if (encoder == null) {
-            addError("No encoder set for the appender named [" + name + "].");
-
-            return;
-        }
-
-        try {
-            encoder.init(System.out);
-
-            layout = encoder.getLayout();
-        } catch (Exception e) {
-            addError("Exception", e);
+            addError("No set username / password / to [" + name + "].");
 
             return;
         }
@@ -44,8 +33,8 @@ public class SmsAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     }
 
     private boolean checkProperty() {
-        return username != null && username.length() != 0 && password != null && password.length() != 0 && to != null &&
-                to.length() != 0 && title != null && title.length() != 0;
+        return username != null && username.length() != 0 && password != null && password.length() != 0
+                && to != null && to.length() != 0;
     }
 
     @Override
@@ -54,15 +43,26 @@ public class SmsAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     }
 
     private void createIssue(ILoggingEvent event) {
-        MitakeSms.send(to, layout.doLayout(event));
+        String msg = transformStackTrace(event);
+
+        MitakeSms.send(to, msg);
     }
 
-    public LayoutWrappingEncoder<ILoggingEvent> getEncoder() {
-        return encoder;
-    }
+    private String transformStackTrace(ILoggingEvent event) {
+        IThrowableProxy throwableProxy = event.getThrowableProxy();
+        StackTraceElement stackTraceElement = throwableProxy.getStackTraceElementProxyArray()[0].getStackTraceElement();
 
-    public void setEncoder(LayoutWrappingEncoder<ILoggingEvent> encoder) {
-        this.encoder = encoder;
+        String time = DEFAULT_DATE_FORMAT.format(new Date(event.getTimeStamp()));
+        String threadName = event.getThreadName();
+        String level = event.getLevel().toString().substring(0, 1);
+        String logger = event.getLoggerName();
+        String exception = throwableProxy.getClassName();
+        String msg = throwableProxy.getMessage();
+        String className = stackTraceElement.getClassName();
+        String method = stackTraceElement.getMethodName();
+        int lineNumber = stackTraceElement.getLineNumber();
+
+        return String.format(FORMAT_MESSAGE, title, time, threadName, level, logger, exception, msg, className, method, lineNumber);
     }
 
     public String getUsername() {
