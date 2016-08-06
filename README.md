@@ -10,14 +10,14 @@
 <dependency>
   <groupId>tw.com.mitake</groupId>
   <artifactId>logback-sms-appender</artifactId>
-  <version>0.2.3</version>
+  <version>0.3.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-compile 'tw.com.mitake:logback-sms-appender:0.2.3'
+compile 'tw.com.mitake:logback-sms-appender:0.3.0'
 ```
 
 ## How to use
@@ -28,9 +28,5 @@ compile 'tw.com.mitake:logback-sms-appender:0.2.3'
   <password>my_password</password> <!-- Your Mitake SMS password -->
   <to>0912345678</to> <!-- Your Mitake SMS destination phone number -->
   <title>Logback SMS Appender</title> <!-- Your Mitake SMS title -->
-  <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-    <pattern>${PATTERN}</pattern>
-    <charset>${CHARSET}</charset>
-  </encoder>
 </appender>
 ```
