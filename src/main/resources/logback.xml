@@ -25,10 +25,6 @@
         <password>my_password</password> <!-- Your Mitake SMS password -->
         <to>0912345678</to> <!-- Your Mitake SMS destination phone number -->
         <title>Logback SMS Appender</title> <!-- Your Mitake SMS title -->
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>${PATTERN}</pattern>
-            <charset>${CHARSET}</charset>
-        </encoder>
     </appender>
 
     <root level="INFO" additivity="false">
