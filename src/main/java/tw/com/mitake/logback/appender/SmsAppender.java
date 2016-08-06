@@ -1,5 +1,6 @@
 package tw.com.mitake.logback.appender;
 
+import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.IThrowableProxy;
 import ch.qos.logback.core.UnsynchronizedAppenderBase;
@@ -10,6 +11,7 @@ import java.util.Date;
 
 public class SmsAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     private static final String DEFAULT_TITLE = "Logback SMS Appender";
+    private static final boolean DEFAULT_ONLY_ERROR = true;
     private static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd:HHmmssSSS");
     // 20160806:165926109,main,E,tw.com.mitake.AppTest,java.lang.RuntimeException:Oops,tw.com.mitake.AppTest.testSms,13
     private static final String FORMAT_MESSAGE = "%s - %s,%s,%s,%s,%s:%s,%s.%s,%d";
@@ -18,6 +20,7 @@ public class SmsAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     private String password;
     private String to;
     private String title = DEFAULT_TITLE;
+    private boolean onlyError = DEFAULT_ONLY_ERROR;
 
     @Override
     public void start() {
@@ -39,6 +42,10 @@ public class SmsAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
 
     @Override
     public void append(ILoggingEvent event) {
+        if (event.getLevel() != Level.ERROR && onlyError == true) {
+            return;
+        }
+
         createIssue(event);
     }
 
@@ -95,5 +102,13 @@ public class SmsAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public boolean isOnlyError() {
+        return onlyError;
+    }
+
+    public void setOnlyError(boolean onlyError) {
+        this.onlyError = onlyError;
     }
 }

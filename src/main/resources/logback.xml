@@ -21,10 +21,11 @@
     </appender>
 
     <appender name="SMS" class="tw.com.mitake.logback.appender.SmsAppender">
-        <username>my_username</username> <!-- Your Mitake SMS username -->
-        <password>my_password</password> <!-- Your Mitake SMS password -->
-        <to>0912345678</to> <!-- Your Mitake SMS destination phone number -->
-        <title>Logback SMS Appender</title> <!-- Your Mitake SMS title -->
+        <username>my_username</username> <!-- Required, Your Mitake SMS username -->
+        <password>my_password</password> <!-- Required, Your Mitake SMS password -->
+        <to>0912345678</to> <!-- Required, Your Mitake SMS destination phone number -->
+        <title>Logback SMS Appender</title> <!-- Optional, Your Mitake SMS title -->
+        <onlyError>true</onlyError> <!-- Optional, Only show ERROR level log, default value is true -->
     </appender>
 
     <root level="INFO" additivity="false">
