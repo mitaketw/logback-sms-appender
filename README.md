@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/mitaketw/logback-sms-appender.svg?branch=master)](https://travis-ci.org/mitaketw/logback-sms-appender)
 
+![demo](https://cloud.githubusercontent.com/assets/795839/17597677/8691972a-6029-11e6-89f7-2fc556e0256b.gif)
+
 ## Dependency
 
 ### Maven
